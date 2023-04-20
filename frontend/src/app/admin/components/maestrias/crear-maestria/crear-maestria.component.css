@@ -1,0 +1,25 @@
+mat-form-field{
+    width: 100%;
+}
+
+.arrray_container{
+    max-height: 250px!important;
+    overflow: auto;
+}
+.array_mat_card{
+    border: solid 0.5px rgb(223, 223, 223)!important;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+mat-step{
+  padding: 10px;
+}
+
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}

@@ -1,0 +1,63 @@
+mat-toolbar{
+  background-color: #f0f0f0;
+}
+
+
+
+#title{
+  color: #053255;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+mat-card{
+  background-color: #fffdfd;
+
+
+}
+
+#sideContent{
+  background-color: #0353A4;
+  width: 100%!important;
+  height: 100%!important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#sideContent_image-container{
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-color: #ecedee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sideContent_image-container_image{
+  width: 145px;
+  height: 100px;
+}
+
+#sideContent_title-container_title{
+  color: #ecedee;
+  font-size: 20px;
+  font-weight: 450;
+}
+
+#loginSection{
+  flex-grow: 1;
+}
+
+#login_container_title{
+  font-weight: 550;
+  font-size: 24px;
+}
+
+#login_boton-limpiar,
+#login_boton-entrar{
+  background-color: #0466c8!important;
+}
+

@@ -1,0 +1,76 @@
+<div class="row d-flex justify-content-center align-items-center">
+  <div class="col-6 mt-2">
+    <mat-card class="mt-4">
+      <mat-card-title class="row d-flex justify-content-center align-items-center mt-2">
+        <div class="col-6 d-flex justify-content-center align-items-center">
+          <h2 style="font-weight: 500; font-size: 25px;">Registrar Usuario</h2>
+        </div>
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="userForm" style="width: 100%;">
+          <div class="row d-flex justify-content-center align-items-center mt-4">
+            <div class="col-8">
+              <mat-form-field>
+                <mat-label>Rol</mat-label>
+                <mat-select [value]="roles[0]" formControlName="rol">
+                  <mat-option *ngFor="let rol of roles" [value]="rol">
+                    {{rol}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.controls.rol.hasError('required') && userForm.controls.rol.touched">El campo es requerido.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center mt-4">
+            <div class="col-8">
+              <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input type="text" matInput formControlName="name" autocomplete="true">
+                <mat-hint>{{userForm.controls.name.value?.length}}  / 30</mat-hint>
+                <mat-error *ngIf="userForm.controls.name.hasError('maxlength') && userForm.controls.name.touched">Máximo 30 caractéres.</mat-error>
+                <mat-error *ngIf="userForm.controls.name.hasError('required') && userForm.controls.name.touched">El campo es requerido.</mat-error>
+
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center mt-4">
+            <div class="col-8">
+              <mat-form-field>
+                <mat-label>Correo</mat-label>
+                <input type="email" matInput formControlName="email" autocomplete="true">
+                <mat-hint>{{userForm.controls.email.value?.length}}  / 60</mat-hint>
+                <mat-error *ngIf="userForm.controls.email.hasError('maxlength') && userForm.controls.email.touched">Máximo 30 caractéres.</mat-error>
+                <mat-error *ngIf="userForm.controls.email.hasError('required') && userForm.controls.email.touched">El campo es requerido.</mat-error>
+                <mat-error *ngIf="userForm.controls.email.hasError('email') && userForm.controls.email.touched">El campo debe ser un correo valido.</mat-error>
+
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center mt-4">
+            <div class="col-8">
+              <mat-form-field>
+                <mat-label>Contraseña</mat-label>
+                <input type="password" matInput formControlName="password" autocomplete="true">
+                <mat-hint>{{userForm.controls.password.value?.length}}  / 60</mat-hint>
+                <mat-error *ngIf="userForm.controls.password.hasError('maxlength') && userForm.controls.password.touched">Máximo 60 caractéres.</mat-error>
+                <mat-error *ngIf="userForm.controls.password.hasError('required') && userForm.controls.password.touched">El campo es requerido.</mat-error>
+                <mat-error *ngIf="userForm.controls.password.hasError('minlength') && userForm.controls.password.touched">Mínimo 5 caracteres.</mat-error>
+
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-center align-items-center mt-4">
+            <div class="col-5 d-flex justify-content-center align-items-center">
+              <button mat-raised-button class="bg-primary text-white" (click)="registerUser()" style="width: 250px; height: 50px;">
+                Registrar
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+
+  </div>
+</div>

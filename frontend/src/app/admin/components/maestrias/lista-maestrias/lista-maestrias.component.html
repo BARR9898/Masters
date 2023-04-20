@@ -1,0 +1,40 @@
+<div class="row d-flex justify-content-center" *ngIf="maestrias" style="max-height: 100vh; overflow-y: auto;">
+  <div class="col-8 mt-4">
+    <mat-card class="grey lighten-5 mt-2">
+      <mat-card-title class="d-flex justify-content-center align-items-center mt-2">
+        Maestrías
+      </mat-card-title>
+      <mat-card-content class="mt-2">
+        <div class="row d-flex justify-content-center">
+          <div class="col-12">
+            <table class="table table-hover responsive" style="width: 100%;">
+              <thead class="grey lighten-3">
+                <tr>
+                  <th>Maestria</th>
+                  <th>Editar</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let maestria of maestrias; index as i">
+                  <td>{{maestria.nombre}}</td>
+                  <td>
+                    <button mat-fab class="light-blue darken-4 text-white" (click)="editMaster(maestria._id)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </td>
+                  <td>
+                    <button mat-fab class="red darken-4 text-white" (click)="deleteMaster(maestria._id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

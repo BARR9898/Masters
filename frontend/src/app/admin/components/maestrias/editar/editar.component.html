@@ -1,0 +1,3254 @@
+<div style="z-index: 0!important;" *ngIf="master">
+
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab label="General">
+      <mat-card>
+        <mat-card-content>
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+            <mat-tab label="Sección General">
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--NOMBRE Y ABREVIATURA-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Nombre y abreviatura</ng-template>
+                    <div class="row p-2">
+                      <div class="col-4">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Nombre</mat-label>
+                          <input autocomplete="true"  type="text" matInput placeholder="" formControlName="nombre"
+                            pattern="[A-Za-z0-9áéíóú. ]+">
+                        </mat-form-field>
+                        <mat-error
+                          *ngIf="this.myForm.get('nombre')?.errors?.['required'] && this.myForm.get('nombre')?.touched">
+                          Nombre es requerido.
+                        </mat-error>
+                        <mat-error
+                          *ngIf="this.myForm.get('nombre')?.errors?.['maxlength'] && this.myForm.get('nombre')?.touched">
+                          Máximo 60 caracteres.
+                        </mat-error>
+                      </div>
+                      <div class="col-3">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Abreviatura</mat-label>
+                          <input autocomplete="true"  type="text" matInput placeholder="" formControlName="nombre">
+                        </mat-form-field>
+                        <mat-error
+                          *ngIf="this.myForm.get('abreviatura')?.errors?.['required'] && this.myForm.get('abreviatura')?.touched">
+                          Abreviatura es requerido.
+                        </mat-error>
+                        <mat-error
+                          *ngIf="this.myForm.get('abreviatura')?.errors?.['maxlength'] && this.myForm.get('abreviatura')?.touched">
+                          Máximo 6 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--TRAMITES-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Trámites</ng-template>
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row">
+                          <div class="col-6">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Trámite</mat-label>
+                              <input autocomplete="true"  type="text" matInput placeholder="" formControlName="auxGTramite">
+                            </mat-form-field>
+                            <mat-error
+                              *ngIf="this.myForm.controls.auxGTramite.errors && this.myForm.controls.auxGTramite.touched">
+                              Máximo 30 caracteres.
+                            </mat-error>
+                          </div>
+                          <div class="col-6">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Costo</mat-label>
+                              <input autocomplete="true"  type="number" matInput placeholder="" formControlName="auxGTramiteCosto">
+                            </mat-form-field>
+                            <mat-error
+                              *ngIf="this.myForm.controls.auxGTramiteCosto.errors && this.myForm.controls.auxGTramiteCosto.touched">
+                              Máximo 4 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['auxGTramite','auxGTramiteCosto'],'GTramites',['nombre','costo'])"
+                          [disabled]="desabledButton(['auxGTramite','auxGTramiteCosto'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{this.myForm.controls.GTramites.controls.length}} tremites agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGTramits = !showGTramits"
+                            [disabled]="this.myForm.controls.GTramites.controls.length == 0">Mostrar
+                            tramites.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="showGTramits == false || this.myForm.controls.GTramites.controls.length == 0">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Tramites
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GTramites">
+                              <ng-container *ngFor="let control of this.myForm.controls.GTramites.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-4">
+
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Trámite {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="nombre">
+                                    </mat-form-field>
+                                    <mat-error
+                                      *ngIf="this.myForm.controls.auxGTramite.errors && this.myForm.controls.auxGTramite.touched">
+                                      Máximo 30 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-4">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Precio</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="costo">
+                                    </mat-form-field>
+                                    <mat-error
+                                      *ngIf="this.myForm.controls.auxGTramite.errors && this.myForm.controls.auxGTramite.touched">
+                                      Máximo 5 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GTramites')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--FECHAS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Fechas</ng-template>
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row">
+                          <div class="col-6">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Nombre del proceso o trámite</mat-label>
+                              <input autocomplete="true"  type="text" matInput formControlName="auxGDate_NameTramit">
+                              <mat-hint align="end">{{getWroteLength('auxGDate_NameTramit')}} / 50 </mat-hint>
+                            </mat-form-field>
+                            <mat-error
+                              *ngIf="this.myForm.controls.auxGDate_NameTramit.errors && this.myForm.controls.auxGDate_NameTramit.touched">
+                              Máximo 50 caracteres.
+                            </mat-error>
+                          </div>
+                          <div class="col-6">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Fecha</mat-label>
+                              <input autocomplete="true"  matInput [matDatepicker]="picker" formControlName="auxGDate">
+                              <mat-hint>MM/DD/YYYY</mat-hint>
+                              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['auxGDate_NameTramit','auxGDate'],'GDates',['name','date'])"
+                          [disabled]="desabledButton(['auxGDate_NameTramit','auxGDate'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{this.myForm.controls.GDates.controls.length}} fechas agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGDates = !showGDates"
+                            [disabled]="this.myForm.controls.GDates.controls.length == 0">Mostrar Fechas.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="showGDates == false || this.myForm.controls.GDates.controls.length == 0">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Fechas
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GDates">
+                              <ng-container *ngFor="let control of this.myForm.controls.GDates.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-4">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Nombre del proceso o trámite {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="name">
+                                      <mat-hint align="end">{{getWroteLength_Array('GDates',i,'name')}} / 50 </mat-hint>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GDates','name')">
+                                      Máximo 50 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-4">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Fecha</mat-label>
+                                      <input autocomplete="true"  matInput placeholder="" formControlName="date">
+                                      <mat-hint align="end">{{getWroteLength_Array('GDates',i,'date')}} / 10 </mat-hint>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GDates','date')">
+                                      Máximo 10 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GDates')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--OBJETVIOS GENERALES-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Objetivos Generales</ng-template>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Nombre del proceso o trámite</mat-label>
+                          <textarea cols="30" rows="10" type="text" matInput formControlName="GGObjetives"></textarea>
+                          <mat-hint align="end">{{this.myForm.controls.GGObjetives.value?.length}} / 500</mat-hint>
+                        </mat-form-field>
+                        <mat-error *ngIf="this.myForm.controls.GGObjetives.hasError('maxlength')">
+                          Máximo 500 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--OBJETIVOS ESPECIFICOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Objetivos Específicos</ng-template>
+                    <div class="row d-flex justify-content-center align-items-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Objetivo</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="GObjetivosEspecificos_aux">
+                            <mat-hint align="end">{{getWroteLength('GObjetivosEspecificos_aux')}} / 50 </mat-hint>
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GObjetivosEspecificos_aux','maxlength')">
+                            Máximo 50 caracteres.
+                          </mat-error>
+
+                        </div>
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GObjetivosEspecificos_aux'],'GObjetivosEspecificos',['objetivo'])"
+                          [disabled]="desabledButton(['GObjetivosEspecificos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GObjetivosEspecificos')}} objetivos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGObjetivosEspecificos = !showGObjetivosEspecificos"
+                            [disabled]=" getLenghtFormArray('GObjetivosEspecificos') == 0">Mostrar
+                            objetivos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGObjetivosEspecificos == false) || ( getLenghtFormArray('GObjetivosEspecificos') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Objetivos Específicos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GObjetivosEspecificos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GObjetivosEspecificos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Objetivo{{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="objetivo">
+                                      <mat-hint
+                                        align="end">{{getWroteLength_Array('GObjetivosEspecificos',i,'objetivo')}} / 50
+                                      </mat-hint>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GObjetivosEspecificos','objetivo')">
+                                      Máximo 50 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GObjetivosEspecificos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--METAS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Metas</ng-template>
+                    <div class="row d-flex justify-content-center align-items-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Meta</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="GMetas_aux">
+                            <mat-hint align="end">{{getWroteLength('GMetas_aux')}} / 50 </mat-hint>
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GMetas_aux','maxlength')">
+                            Máximo 50 caracteres.
+                          </mat-error>
+
+                        </div>
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GMetas_aux'],'GMetas',['meta'])"
+                          [disabled]="desabledButton(['GMetas_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GMetas')}} metas agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGMetas = !showGMetas"
+                            [disabled]=" getLenghtFormArray('GMetas') == 0">Mostrar metas.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGMetas == false) || ( getLenghtFormArray('GMetas') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Metas
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GMetas">
+                              <ng-container *ngFor="let control of this.myForm.controls.GMetas.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Meta {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="meta">
+                                      <mat-hint align="end">{{getWroteLength_Array('GMetas',i,'meta')}} / 50 </mat-hint>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GMetas','meta')">
+                                      Máximo 50 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GMetas')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--STEEPER END-->
+                <mat-step>
+                  <ng-template matStepLabel>Done</ng-template>
+                  <p></p>
+                  <div>
+                    <button mat-button matStepperPrevious>Atras</button>
+                  </div>
+                </mat-step>
+              </mat-stepper>
+            </mat-tab>
+            <mat-tab label="Perfil De Ingreso">
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--TEXTO INTRODUCTORIO-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Texto Introductorio</ng-template>
+                    <div class="row p-2 d-flex justify-content-center">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto de inicio</mat-label>
+                          <textarea type="text" matInput rows="5" formControlName="GPI_start"></textarea>
+                        </mat-form-field>
+                        <mat-error *ngIf="hasErrorControl('GPI_start','maxlength')">
+                          Máximo 600 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--CONOCIMEINTOS BASICOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Conocimientos Básicos</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Conocimiento</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPI_conocimientos_basicos_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPI_conocimientos_basicos_aux','maxlength')">
+                            Máximo 50 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPI_conocimientos_basicos_aux'],'GPI_conocimientos_basicos',['conocimiento'])"
+                          [disabled]="desabledButton(['GPI_conocimientos_basicos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPI_conocimientos_basicos')}} conocimientos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPI_conocimientos_basicos_aux = !showGPI_conocimientos_basicos_aux"
+                            [disabled]="getLenghtFormArray('GPI_conocimientos_basicos') == 0">Mostrar
+                            conocimientos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container" GTramites
+                        [hidden]="(showGPI_conocimientos_basicos_aux == false) || (getLenghtFormArray('GPI_conocimientos_basicos') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Conocimientos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPI_conocimientos_basicos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPI_conocimientos_basicos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Conocimiento {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="conocimiento">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPI_conocimientos_basicos','conocimiento')">
+                                      Máximo 50 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPI_conocimientos_basicos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--CONOCIMIENTOS Y HABILIDADES-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Conocimientos,habilidades y Valores</ng-template>
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Conocimiento o habilidad</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="GPI_conocimientos_habilidades_aux">
+                            <mat-hint align="end">{{getWroteLength('GPI_conocimientos_habilidades_aux')}} / 50
+                            </mat-hint>
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPI_conocimientos_habilidades_aux','maxlength')">
+                            Máximo 50 caracteres.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPI_conocimientos_habilidades_aux'],'GPI_conocimientos_habilidades',['data'])"
+                          [disabled]="desabledButton(['GPI_conocimientos_habilidades_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPI_conocimientos_habilidades')}} conocimientos/habilidades agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPI_conocimientos_habilidades = !showGPI_conocimientos_habilidades"
+                            [disabled]="getLenghtFormArray('GPI_conocimientos_habilidades') == 0">Mostrar
+                            datos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGPI_conocimientos_habilidades == false) || (getLenghtFormArray('GPI_conocimientos_habilidades') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Conocimeintos y Habilidades
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPI_conocimientos_habilidades">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPI_conocimientos_habilidades.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Conocimiento o habilidad {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="data">
+                                      <mat-hint
+                                        align="end">{{getWroteLength_Array('GPI_conocimientos_habilidades',i,'data')}} /
+                                        50 </mat-hint>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPI_conocimientos_habilidades','data')">
+                                      Máximo 50 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPI_conocimientos_habilidades')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--STEEPER END-->
+                <mat-step>
+                  <ng-template matStepLabel>Sección de Perfil de Ingreso completada.</ng-template>
+                  <p></p>
+                  <div>
+                    <button mat-button matStepperPrevious>Atras</button>
+                    <button mat-button matStepperNext>Siguiente</button>
+                  </div>
+                </mat-step>
+              </mat-stepper>
+            </mat-tab>
+            <mat-tab label="Perfil De Egreso">
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--TEXTO INTRODUCTORIO-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Texto Introductorio</ng-template>
+                    <div class="row p-2 d-flex justify-content-center">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto de inicio</mat-label>
+                          <textarea type="text" matInput rows="5" formControlName="GPE_start"></textarea>
+                        </mat-form-field>
+                        <mat-error *ngIf="hasErrorControl('GPE_start','maxlength')">
+                          Máximo 600 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--CAPACIDADES-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Capacidades</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Capacidades</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPE_capacidades_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPE_capacidades_aux','maxlength')">
+                            Máximo 60 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPE_capacidades_aux'],'GPE_capacidades',['capacidad'])"
+                          [disabled]="desabledButton(['GPE_capacidades_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPE_capacidades')}} capacidades agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPE_capacidades = !showGPE_capacidades"
+                            [disabled]="getLenghtFormArray('GPE_capacidades') == 0">Mostrar
+                            capacidades.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container" GTramites
+                        [hidden]="(showGPE_capacidades == false) || (getLenghtFormArray('GPE_capacidades') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Capacidades
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPE_capacidades">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPE_capacidades.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Capacidad {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="capacidad">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPE_capacidades','capacidad')">
+                                      Máximo 60 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPE_capacidades')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--COMPETENCIAS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Competencias</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Competencia</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPE_competencias_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPE_competencias_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPE_competencias_aux'],'GPE_competencias',['competencia'])"
+                          [disabled]="desabledButton(['GPE_competencias_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPE_competencias')}} competencias agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPE_competencias = !showGPE_competencias"
+                            [disabled]="getLenghtFormArray('GPE_competencias') == 0">Mostrar
+                            competencias.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container" GTramites
+                        [hidden]="(showGPE_competencias == false) || (getLenghtFormArray('GPE_competencias') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Competencias
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPE_competencias">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPE_competencias.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Competencia {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="competencia">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPE_competencias','competencia')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPE_competencias')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--CONOCIMIENTOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Conocimientos</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Conocimiento</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPE_conocimientos_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPE_conocimientos_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPE_conocimientos_aux'],'GPE_conocimientos',['conocimiento'])"
+                          [disabled]="desabledButton(['GPE_conocimientos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPE_conocimientos')}} conocimientos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPE_conocimientos = !showGPE_conocimientos"
+                            [disabled]="getLenghtFormArray('GPE_conocimientos') == 0">Mostrar
+                            conocimientos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container" GTramites
+                        [hidden]="(showGPE_conocimientos == false) || (getLenghtFormArray('GPE_conocimientos') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Conocimientos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPE_conocimientos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPE_conocimientos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Conocimiento {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="conocimiento">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPE_conocimientos','conocimiento')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPE_conocimientos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--HABILIDADES-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Habilidades</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Habilidad</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPE_habilidades_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPE_habilidades_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPE_habilidades_aux'],'GPE_habilidades',['habilidad'])"
+                          [disabled]="desabledButton(['GPE_habilidades_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPE_habilidades')}} habilidades agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPE_habilidades = !showGPE_habilidades"
+                            [disabled]="getLenghtFormArray('GPE_habilidades') == 0">Mostrar
+                            habilidades.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container" GTramites
+                        [hidden]="(showGPE_habilidades == false) || (getLenghtFormArray('GPE_habilidades') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Habilidades
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPE_habilidades">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPE_habilidades.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Habilidad {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="habilidad">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPE_habilidades','habilidad')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPE_habilidades')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--APTITUDES-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Aptitudes</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Aptitud</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPE_aptitudes_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPE_aptitudes_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPE_aptitudes_aux'],'GPE_aptitudes',['aptitud'])"
+                          [disabled]="desabledButton(['GPE_aptitudes_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPE_aptitudes')}} aptitudes agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPE_aptitudes = !showGPE_aptitudes"
+                            [disabled]="getLenghtFormArray('GPE_aptitudes') == 0">Mostrar
+                            aptitud.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container" GTramites
+                        [hidden]="(showGPE_aptitudes == false) || (getLenghtFormArray('GPE_aptitudes') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Aptitudes
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPE_aptitudes">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPE_aptitudes.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Aptitud {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="aptitud">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPE_aptitudes','aptitud')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPE_aptitudes')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+              </mat-stepper>
+            </mat-tab>
+            <mat-tab label="Planes De Estudio">
+              <!--PLANES DE ESTUDIO-->
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--OBJETIVO GENERAL-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Objetivo General</ng-template>
+                    <div class="row p-2 d-flex justify-content-center">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Objetivo</mat-label>
+                          <textarea type="text" matInput rows="5" formControlName="GPES_objetivo_general"></textarea>
+                        </mat-form-field>
+                        <mat-error *ngIf="hasErrorControl('GPES_objetivo_general','maxlength')">
+                          Máximo 600 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--Objetivos Específicos-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Objetivos Específicos</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Objetivo</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPES_objetivos_especificos_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPES_objetivos_especificos_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPES_objetivos_especificos_aux'],'GPES_objetivos_especificos',['objetivo'])"
+                          [disabled]="desabledButton(['GPES_objetivos_especificos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPES_objetivos_especificos')}} objetivos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPES_objetivos_especificos = !showGPES_objetivos_especificos"
+                            [disabled]="getLenghtFormArray('GPES_objetivos_especificos') == 0">Mostrar
+                            capacidades.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container" GTramites
+                        [hidden]="(showGPES_objetivos_especificos == false) || (getLenghtFormArray('GPES_objetivos_especificos') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Objetivos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPES_objetivos_especificos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPES_objetivos_especificos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Objetivos {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="objetivo">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPES_objetivos_especificos','objetivo')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPES_objetivos_especificos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--Metas-->
+                <mat-step>
+                  <form [formGroup]="myForm" class="p-2">
+                    <ng-template matStepLabel>Metas</ng-template>
+                    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+                      <mat-tab label="Misión">
+                        <div class="row d-flex justify-content-center">
+                          <div class="col-8">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Misión</mat-label>
+                              <textarea rows="5" type="text" matInput placeholder="" formControlName="GPES_metas_mision"></textarea>
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('GPES_metas_mision','maxlength')">
+                              Máximo 600 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+                      </mat-tab>
+                      <mat-tab label="Visión">
+                        <div class="row d-flex justify-content-center align-items-center">
+                          <div class="col-8">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Visión</mat-label>
+                              <textarea rows="5" type="text" matInput placeholder="" formControlName="GPES_metas_vision"></textarea>
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('GPES_metas_vision','maxlength')">
+                              Máximo 600 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+                      </mat-tab>
+                      <mat-tab label="Texto Introductorio">
+                        <div class="row d-flex justify-content-center">
+                          <div class="col-8">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Texto introductorio</mat-label>
+                              <textarea rows="5" matInput placeholder="" formControlName="GPES_metas_start"></textarea>
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('GPES_metas_vision','maxlength')">
+                              Máximo 600 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+                      </mat-tab>
+                      <mat-tab label="Métas">
+                        <div class="row d-flex justify-content-center">
+                          <div class="col-6">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Meta</mat-label>
+                              <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPES_metas_aux">
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('GPES_metas_aux','maxlength')">
+                              Máximo 100 caracteres.
+                            </mat-error>
+                          </div>
+
+
+                        </div>
+                        <div class="row d-flex justify-content-end alig-items-center">
+                          <div class="col-2 d-flex justify-content-center align-items-center">
+                            <button mat-fab type="button" class="bg-primary"
+                              (click)="addItem(['GPES_metas_aux'],'GPES_metas',['meta'])"
+                              [disabled]="desabledButton(['GPES_metas_aux'])">
+                              <mat-icon class="text-white">add</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="row mb-2 d-flex justify-content-around alig-items-center">
+                          <div class="col-6 d-flex justify-content-center align-items-center">
+                            {{getLenghtFormArray('GPES_metas')}} metas agregadas.
+                          </div>
+                          <div class="col-6 d-flex justify-content-start align-items-center">
+                            <mat-checkbox (click)="showGPES_metas = !showGPES_metas"
+                              [disabled]="getLenghtFormArray('GPES_metas') == 0">Mostrar
+                              metas.</mat-checkbox>
+                          </div>
+                        </div>
+                        <div class="row arrray_container"
+                        [hidden]="(showGPES_metas == false) || (getLenghtFormArray('GPES_metas') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Metas
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPES_metas">
+                              <ng-container *ngFor="let control of this.myForm.controls.GPES_metas.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Meta {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="meta">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPES_metas','objetivo')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPES_metas')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                      </mat-tab>
+                    </mat-tab-group>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--ASIGNATURAS BÁSCIAS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Asignaturas Básicas</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Asignatura Básica</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPES_asignaturas_basicas_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPES_asignaturas_basicas_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPES_asignaturas_basicas_aux'],'GPES_asignaturas_basicas',['asignatura'])"
+                          [disabled]="desabledButton(['GPES_asignaturas_basicas_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPES_asignaturas_basicas')}} asignaturas agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPES_asignaturas_basicas = !showGPES_asignaturas_basicas"
+                            [disabled]="getLenghtFormArray('GPES_asignaturas_basicas') == 0">Mostrar
+                            asignaturas.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGPES_asignaturas_basicas == false) || (getLenghtFormArray('GPES_asignaturas_basicas') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Asignaturas
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPES_asignaturas_basicas">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPES_asignaturas_basicas.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Asignatura {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="asignatura">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPES_asignaturas_basicas','asignatura')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPES_asignaturas_basicas')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--ASIGNATURAS OPTATIVAS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Asignaturas Optativas</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Asignatura Optativa</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPES_asignaturas_optativas_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPES_asignaturas_optativas_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPES_asignaturas_optativas_aux'],'GPES_asignaturas_optativas',['asignatura'])"
+                          [disabled]="desabledButton(['GPES_asignaturas_optativas_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPES_asignaturas_optativas')}} asignaturas agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPES_asignaturas_optativas = !showGPES_asignaturas_optativas"
+                            [disabled]="getLenghtFormArray('GPES_asignaturas_optativass') == 0">Mostrar
+                            asignaturas.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGPES_asignaturas_optativas == false) || (getLenghtFormArray('GPES_asignaturas_optativas') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Asignaturas
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPES_asignaturas_optativas">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPES_asignaturas_optativas.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Asignatura {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="asignatura">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPES_asignaturas_optativas','asignatura')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPES_asignaturas_optativas')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--SEMINARIO DE TÉSIS -->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Seminario De Tésis</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Asignatura</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPES_seminario_tesis_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPES_seminario_tesis_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPES_seminario_tesis_aux'],'GPES_seminario_tesis',['asignatura'])"
+                          [disabled]="desabledButton(['GPES_seminario_tesis_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPES_seminario_tesis')}} asignaturas agregadas.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPES_seminario_tesis = !showGPES_seminario_tesis"
+                            [disabled]="getLenghtFormArray('GPES_seminario_tesis') == 0">Mostrar
+                            asignaturas.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGPES_seminario_tesis == false) || (getLenghtFormArray('GPES_seminario_tesis') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Asignaturas
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPES_seminario_tesis">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPES_seminario_tesis.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Asignatura {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="asignatura">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPES_seminario_tesis','asignatura')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPES_seminario_tesis')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+
+              </mat-stepper>
+            </mat-tab>
+            <mat-tab label="GLAC">
+              <form [formGroup]="myForm">
+                <ng-template matStepLabel>GLAC</ng-template>
+                <div class="row p-2 d-flex justify-content-center">
+                  <div class="col-8">
+                    <mat-form-field appearance="fill">
+                      <mat-label>GLAC</mat-label>
+                      <textarea type="text" matInput rows="5" formControlName="GLGAC"></textarea>
+                    </mat-form-field>
+                    <mat-hint>
+                      {{getWroteLength('GLGAC')}} / 1000
+                    </mat-hint>
+                    <mat-error *ngIf="hasErrorControl('GLGAC','maxlength')">
+                      Máximo 1000 caracteres.
+                    </mat-error>
+                  </div>
+                </div>
+              </form>
+
+            </mat-tab>
+            <mat-tab label="Selección De Aspirantes">
+              <!--SELECCIÓN DE ASPIRANTES-->
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--TEXTO INTRODUCTORIO-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Texto Introductorio</ng-template>
+                    <div class="row p-2 d-flex justify-content-center">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto</mat-label>
+                          <textarea type="text" matInput rows="5" formControlName="GPSA_start"></textarea>
+                        </mat-form-field>
+                        <mat-hint>
+                          {{getWroteLength('GPSA_start')}} / 1000
+                        </mat-hint>
+                        <mat-error *ngIf="hasErrorControl('GPSA_start','maxlength')">
+                          Máximo 1000 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--REQUESITOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Requisitos</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Requisito</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GPSA_requisitos_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GPSA_requisitos_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GPSA_requisitos_aux'],'GPSA_requisitos',['requisito'])"
+                          [disabled]="desabledButton(['GPSA_requisitos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GPSA_requisitos')}} requisitos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGPSA_requisitos = !showGPSA_requisitos"
+                            [disabled]="getLenghtFormArray('GPSA_requisitos') == 0">Mostrar
+                            requsitos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGPSA_requisitos == false) || (getLenghtFormArray('GPSA_requisitos') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Requsitos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GPSA_requisitos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GPSA_requisitos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Requisito {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="requisito">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GPSA_requisitos','requisito')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GPSA_requisitos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+
+
+              </mat-stepper>
+            </mat-tab>
+            <mat-tab label="Características De Tésis">
+              <!--SELECCIÓN DE ASPIRANTES-->
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--TEXTO INTRODUCTORIO-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Texto Introductorio</ng-template>
+                    <div class="row p-2 d-flex justify-content-center">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto</mat-label>
+                          <textarea type="text" matInput rows="5" formControlName="GCT_start"></textarea>
+                        </mat-form-field>
+                        <mat-hint>
+                          {{getWroteLength('GCT_start')}} / 1000
+                        </mat-hint>
+                        <mat-error *ngIf="hasErrorControl('GCT_start','maxlength')">
+                          Máximo 1000 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--REQUESITOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Requisitos</ng-template>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Requisito</mat-label>
+                            <input autocomplete="true"  type="text" matInput placeholder="" formControlName="GCT_requisitos_aux">
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('GCT_requisitos_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['GCT_requisitos_aux'],'GCT_requisitos',['requisito'])"
+                          [disabled]="desabledButton(['GCT_requisitos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('GCT_requisitos')}} requisitos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showGCT_requisitos = !showGCT_requisitos"
+                            [disabled]="getLenghtFormArray('GCT_requisitos') == 0">Mostrar
+                            requsitos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showGCT_requisitos == false) || (getLenghtFormArray('GCT_requisitos') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Requsitos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="GCT_requisitos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.GCT_requisitos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Requisito {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="requisito">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'GCT_requisitos','requisito')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'GCT_requisitos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+
+
+              </mat-stepper>
+            </mat-tab>
+
+          </mat-tab-group>
+
+
+
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Proceso Administrativos">
+      <mat-card>
+        <mat-card-content>
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+            <mat-tab label="Requisitos De Ingreso">
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--TEXTO INTRODUCTORIO-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Texto Introductorio</ng-template>
+                    <div class="row d-flex justify-content-center p-2">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto</mat-label>
+                          <textarea type="text" matInput placeholder="" rows="5"
+                            formControlName="PARI_start"></textarea>
+                        </mat-form-field>
+                        <mat-hint>
+                          {{getWroteLength('PARI_start')}} / 1000
+                        </mat-hint>
+                        <mat-error *ngIf="hasErrorControl('PARI_start','maxlength')">
+                          Máximo 1000 caracteres.
+                        </mat-error>
+
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--REQUISITOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Requsitos</ng-template>
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row">
+                          <div class="col-12">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Requisito</mat-label>
+                              <input autocomplete="true"  type="text" matInput placeholder="" formControlName="PARI_requisitos_aux">
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('PARI_requisitos_aux','maxlength')">
+                              Máximo 100 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['PARI_requisitos_aux'],'PARI_requisitos',['requisito'])"
+                          [disabled]="desabledButton(['requisitos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('PARI_requisitos')}} requisitos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showPARI_requisitos = !showPARI_requisitos"
+                            [disabled]="getLenghtFormArray('PARI_requisitos') == 0">Mostrar
+                            requisitos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="showPARI_requisitos == false || getLenghtFormArray('PARI_requisitos') == 0">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Requisitos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="PARI_requisitos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.PARI_requisitos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-10">
+
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Requisito {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="requisito">
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'PARI_requisitos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <mat-divider></mat-divider>
+                <!--TEXTO INTRODUCTORIO DOCUMENTACION-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Documentatción Textro Introductorio</ng-template>
+                    <div class="row p-2 d-flex justify-content-center">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto</mat-label>
+                          <textarea type="text" matInput rows="5" formControlName="PARI_documentacion_start"></textarea>
+                        </mat-form-field>
+                        <mat-hint>
+                          {{getWroteLength('PARI_documentacion_start')}} / 1000
+                        </mat-hint>
+                        <mat-error *ngIf="hasErrorControl('PARI_documentacion_start','maxlength')">
+                          Máximo 1000 caracteres.
+                        </mat-error>
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--DOCUMENTOS - DOCUMENTACION-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Documentos</ng-template>
+                    <div class="row d-flex justify-content-center align-items-center">
+                      <div class="col-8">
+                        <div class="row">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Documentos</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="PARI_documentos_aux">
+                            <mat-hint align="end">{{getWroteLength('PARI_documentos_aux')}} / 50 </mat-hint>
+                          </mat-form-field>
+                          <mat-error *ngIf="hasErrorControl('PARI_documentos_aux','maxlength')">
+                            Máximo 100 caracteres.
+                          </mat-error>
+
+                        </div>
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['PARI_documentos_aux'],'PARI_documentos',['documento'])"
+                          [disabled]="desabledButton(['PARI_documentos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('PARI_documentos')}} docuemntos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showPARI_documentos = !showPARI_documentos"
+                            [disabled]=" getLenghtFormArray('PARI_documentos') == 0">Mostrar
+                            Documentos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="(showPARI_documentos == false) || ( getLenghtFormArray('PARI_documentos') == 0)">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Documentación
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="PARI_documentos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.PARI_documentos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-8">
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Documentos {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="documento">
+                                      <mat-hint align="end">{{getWroteLength_Array('PARI_documentos',i,'documento')}} /
+                                        100
+                                      </mat-hint>
+                                    </mat-form-field>
+                                    <mat-error *ngIf="isInvalyd(i,'PARI_documentos','documento')">
+                                      Máximo 100 caracteres.
+                                    </mat-error>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'PARI_documentos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+                <!--STEEPER END-->
+                <mat-step>
+                  <ng-template matStepLabel>Done</ng-template>
+                  <p></p>
+                  <div>
+                    <button mat-button matStepperPrevious>Atras</button>
+                  </div>
+                </mat-step>
+              </mat-stepper>
+            </mat-tab>
+            <mat-tab label="Requisitos De Permanencia">
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--TEXTO INTRODUCTORIO-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Texto Introductorio</ng-template>
+                    <div class="row d-flex justify-content-center p-2">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto</mat-label>
+                          <textarea type="text" matInput placeholder="" rows="5"
+                            formControlName="PARP_start"></textarea>
+                        </mat-form-field>
+                        <mat-hint>
+                          {{getWroteLength('PARP_start')}} / 1000
+                        </mat-hint>
+                        <mat-error *ngIf="hasErrorControl('PARP_start','maxlength')">
+                          Máximo 1000 caracteres.
+                        </mat-error>
+
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--REQUISITOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Requsitos</ng-template>
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row">
+                          <div class="col-12">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Requisito</mat-label>
+                              <input autocomplete="true"  type="text" matInput placeholder="" formControlName="PARP_requisitos_aux">
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('PARP_requisitos_aux','maxlength')">
+                              Máximo 100 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['PARP_requisitos_aux'],'PARP_requisitos',['requisito'])"
+                          [disabled]="desabledButton(['PARP_requisitos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('PARP_requisitos')}} requisitos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showPARP_requisitos = !showPARP_requisitos"
+                            [disabled]="getLenghtFormArray('PARP_requisitos') == 0">Mostrar
+                            requisitos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="showPARP_requisitos == false || getLenghtFormArray('PARP_requisitos') == 0">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Requisitos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="PARP_requisitos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.PARP_requisitos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-10">
+
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Requisito {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="requisito">
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'PARP_requisitos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+              </mat-stepper>
+            </mat-tab>
+            <mat-tab label="Becas">
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <!--TEXTO INTRODUCTORIO-->
+                <mat-step [stepControl]="myForm">
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Texto Introductorio</ng-template>
+                    <div class="row d-flex justify-content-center p-2">
+                      <div class="col-8">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Texto</mat-label>
+                          <textarea type="text" matInput placeholder="" rows="5" formControlName="PAB_start"></textarea>
+                        </mat-form-field>
+                        <mat-hint>
+                          {{getWroteLength('PAB_start')}} / 1000
+                        </mat-hint>
+                        <mat-error *ngIf="hasErrorControl('PAB_start','maxlength')">
+                          Máximo 1000 caracteres.
+                        </mat-error>
+
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!--REQUISITOS-->
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Requsitos</ng-template>
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="row">
+                          <div class="col-12">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Requisito</mat-label>
+                              <input autocomplete="true"  type="text" matInput placeholder="" formControlName="PAB_requisitos_aux">
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('PAB_requisitos_aux','maxlength')">
+                              Máximo 100 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-2 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['PAB_requisitos_aux'],'PAB_requisitos',['requisito'])"
+                          [disabled]="desabledButton(['PAB_requisitos_aux'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('PAB_requisitos')}} requisitos agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showPAB_requisitos = !showPAB_requisitos"
+                            [disabled]="getLenghtFormArray('PAB_requisitos') == 0">Mostrar
+                            requisitos.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="showPAB_requisitos == false || getLenghtFormArray('PAB_requisitos') == 0">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Requisitos
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="PAB_requisitos">
+                              <ng-container
+                                *ngFor="let control of this.myForm.controls.PAB_requisitos.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-10">
+
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Requisito {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="requisito">
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'PAB_requisitos')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+              </mat-stepper>
+
+            </mat-tab>
+            <mat-tab label="Descargas">
+              <!--DESCARGAS-->
+              <mat-stepper orientation="vertical" linear="false" #stepper>
+                <mat-step>
+                  <form [formGroup]="myForm">
+                    <ng-template matStepLabel>Descargas</ng-template>
+                    <div class="row d-flex align-items-center">
+                      <div class="col-10">
+                        <div class="row d-flex justify-content-center align-items-center">
+                          <div class="col-5">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Nombre del documento</mat-label>
+                              <input autocomplete="true"  type="text" matInput placeholder="" formControlName="PADescargas_nombre">
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('PADescargas_nombre','maxlength')">
+                              Máximo 100 caracteres.
+                            </mat-error>
+                          </div>
+                          <div class="col-5">
+                            <mat-form-field appearance="fill">
+                              <mat-label>Enlace del documento</mat-label>
+                              <input autocomplete="true"  type="text" matInput placeholder="" formControlName="PADescargas_enlace">
+                            </mat-form-field>
+                            <mat-error *ngIf="hasErrorControl('PADescargas_enlace','maxlength')">
+                              Máximo 100 caracteres.
+                            </mat-error>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-1 d-flex justify-content-center align-items-center">
+                        <button mat-fab type="button" class="bg-primary"
+                          (click)="addItem(['PADescargas_nombre','PADescargas_enlace'],'PADescargas',['nombre','enlace'])"
+                          [disabled]="desabledButton(['PADescargas_nombre','PADescargas_enlace'])">
+                          <mat-icon class="text-white">add</mat-icon>
+                        </button>
+                      </div>
+                      <div class="row mb-2 d-flex justify-content-around">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                          {{getLenghtFormArray('PADescargas')}} enlaces agregados.
+                        </div>
+                        <div class="col-6 d-flex justify-content-start align-items-center">
+                          <mat-checkbox (click)="showPADescargas = !showPADescargas"
+                            [disabled]="getLenghtFormArray('PADescargas') == 0">Mostrar
+                            enlaces.</mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row arrray_container"
+                        [hidden]="showPADescargas == false || getLenghtFormArray('PADescargas') == 0">
+                        <mat-card class="array_mat_card">
+                          <mat-card-title class="row d-flex justify-content-center p-2">
+                            Enlaces
+                          </mat-card-title>
+                          <mat-card-content>
+                            <ng-container formArrayName="PADescargas">
+                              <ng-container *ngFor="let control of this.myForm.controls.PADescargas.controls;index as i"
+                                [formGroupName]="i">
+                                <div class="row d-flex justify-content-center align-items-center">
+                                  <div class="col-5">
+
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Nombre {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="nombre">
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-5">
+
+                                    <mat-form-field appearance="fill">
+                                      <mat-label>Enlace {{i+1}}</mat-label>
+                                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="enlace">
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="col-2 d-flex justify-content-center align-items-center">
+                                    <button mat-fab class="text-white bg-danger"
+                                      (click)="deleteItem(i,'PADescargas')"><mat-icon>delete</mat-icon></button>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                  <button mat-button matStepperPrevious>Atras</button>
+                  <button mat-button matStepperNext>Siguiente</button>
+                </mat-step>
+              </mat-stepper>
+
+            </mat-tab>
+
+
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Núcleo Académico">
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+        <mat-tab label="Docentes">
+          <mat-card>
+            <mat-card-content>
+              <form [formGroup]="myForm">
+                <div class="row d-flex m-2 justify-content-center align-items-center">
+                  <div class="col-5">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Nombre</mat-label>
+                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="NADocentes_nombre">
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NADocentes_nombre')}} / 50</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NADocentes_nombre','maxlength')">
+                      Máximo 50 caracteres.
+                    </mat-error>
+                  </div>
+                  <div class="col-5">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Grado Académico</mat-label>
+                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="NADocentes_grado_academico">
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NADocentes_grado_academico')}} / 50</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NADocentes_grado_academico','maxlength')">
+                      Máximo 50 caracteres.
+                    </mat-error>
+                  </div>
+                </div>
+                <div class="row d-flex m-2 justify-content-center align-items-center">
+                  <div class="col-5">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Tiempo De Impartimiento</mat-label>
+                      <mat-select formControlName="NADocentes_tiempo_empartimiento">
+                        <mat-option *ngFor="let tiempo of tiempos_impartimiento" [value]="tiempo.descripcion">
+                          {{tiempo.descripcion}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-5">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Especialidad</mat-label>
+                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="NADocentes_especialidad">
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NADocentes_especialidad')}} / 50</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NADocentes_especialidad','maxlength')">
+                      Máximo 50 caracteres.
+                    </mat-error>
+                  </div>
+                </div>
+                <div class="row d-flex m-2 justify-content-center align-items-center">
+                  <div class="col-10">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Curriculum</mat-label>
+                      <textarea type="text" rows="5" matInput placeholder=""
+                        formControlName="NADocentes_curriculum"></textarea>
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NADocentes_curriculum')}} / 1000</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NADocentes_curriculum','maxlength')">
+                      Máximo 1000 caracteres.
+                    </mat-error>
+                  </div>
+                </div>
+
+
+                <div class="row d-flex justify-content-end align-items-center">
+                  <div class="col-2">
+                    <button mat-fab id="saveButton" class="bg-primary" [disabled]="desabledButton(['NADocentes_nombre','NADocentes_grado_academico','NADocentes_especialidad','NADocentes_curriculum'])"
+                      (click)="addItem(['NADocentes_nombre','NADocentes_grado_academico','NADocentes_especialidad','NADocentes_curriculum','NADocentes_tiempo_empartimiento'],'NADocentes',['nombre','grado_academico','especialidad','curriculum','tiempos_impartimiento'])">
+                      <mat-icon>add</mat-icon></button>
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-around align-items-center">
+                  <div class="col-4 d-flex justify-content-center align-items-center">
+                    {{getLenghtFormArray('NADocentes')}} docentes agregados.
+                  </div>
+                  <div class="col-4 d-flex justify-content-center align-items-center">
+                    <mat-checkbox [disabled]="getLenghtFormArray('NADocentes') == 0"
+                      (click)="showNADocentes = !showNADocentes">Mostrar docentes agregados.</mat-checkbox>
+                  </div>
+
+                </div>
+
+                <div class="row arrray_container"
+                  [hidden]="showNADocentes == false || getLenghtFormArray('NADocentes') == 0">
+                  <mat-card class="array_mat_card">
+                    <mat-card-title class="row d-flex justify-content-center p-2">
+                      Docentes
+                    </mat-card-title>
+                    <mat-card-content>
+                      <ng-container formArrayName="NADocentes">
+                        <ng-container *ngFor="let control of this.myForm.controls.NADocentes.controls;index as i"
+                          [formGroupName]="i">
+                          <div class="row d-flex align-items-center">
+                            <div class="col-10">
+                              <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-4">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Nombre</mat-label>
+                                    <input autocomplete="true"  type="text" matInput placeholder="" formControlName="nombre">
+                                  </mat-form-field>
+                                  <mat-error *ngIf="isInvalyd(i,'NADocentes','nombre')">
+                                    Máximo 50 caracteres.
+                                  </mat-error>
+                                </div>
+                                <div class="col-4">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Grado Académico</mat-label>
+                                    <input autocomplete="true"  type="text" matInput placeholder="" formControlName="grado_academico">
+                                  </mat-form-field>
+                                  <mat-error *ngIf="isInvalyd(i,'NADocentes','grado_academico')">
+                                    Máximo 50 caracteres.
+                                  </mat-error>
+                                </div>
+                                <div class="col-4">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Especialidad</mat-label>
+                                    <input autocomplete="true"  type="text" matInput placeholder="" formControlName="especialidad">
+                                  </mat-form-field>
+                                  <mat-error *ngIf="isInvalyd(i,'NADocentes','especialidad')">
+                                    Máximo 50 caracteres.
+                                  </mat-error>
+                                </div>
+                              </div>
+                              <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-3 d-flex align-items-center">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Tiempo</mat-label>
+                                    <mat-select formControlName="tiempos_impartimiento">
+                                      <mat-option *ngFor="let tiempo of tiempos_impartimiento"
+                                        [value]="tiempo.descripcion">
+                                        {{tiempo.descripcion}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-9">
+                                  <mat-form-field appearance="fill">
+                                    <mat-label>Curriculum</mat-label>
+                                    <textarea rows="5" type="text" matInput placeholder=""
+                                      formControlName="curriculum"></textarea>
+                                  </mat-form-field>
+                                  <mat-error *ngIf="isInvalyd(i,'NADocentes','curriculum')">
+                                    Máximo 1000 caracteres.
+                                  </mat-error>
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="col-2 d-flex jGTramitesustify-content-center align-items-center">
+                              <button mat-fab class="text-white bg-danger"
+                                (click)="deleteItem(i,'NADocentes')"><mat-icon>delete</mat-icon></button>
+                            </div>
+                          </div>
+
+
+                        </ng-container>
+                      </ng-container>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+
+
+
+
+
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="Repositorio De Tésis">
+          <mat-card>
+            <mat-card-content>
+              <form [formGroup]="myForm">
+                <div class="row d-flex align-items-center justify-content-center">
+                  <!--NOMBRE-->
+                  <div class="col-4">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Nombre</mat-label>
+                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="NARepositorio_tesis_nombre">
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NARepositorio_tesis_nombre')}} / 50</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NARepositorio_tesis_nombre','maxlength')">
+                      Máximo 50 caracteres.
+                    </mat-error>
+                  </div>
+                  <!--TIPO-->
+                  <div class="col-4">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Tipo</mat-label>
+                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="NARepositorio_tesis_tipo">
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NARepositorio_tesis_tipo')}} / 50</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NARepositorio_tesis_tipo','maxlength')">
+                      Máximo 50 caracteres.
+                    </mat-error>
+                  </div>
+                  <!--FECHA DE PUBLICACION-->
+                  <div class="col-4">
+                    <mat-form-field apperance="fill">
+                      <mat-label>Fecha Publicación</mat-label>
+                      <input autocomplete="true"  matInput [matDatepicker]="picker1" formControlName="NARepositorio_tesis_fecha_aux"
+                        (ngModelChange)="setDate()">
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!--FORMULARIO DE AUTORES-->
+                <div class="row mt-4 d-flex  justify-content-center align-items-center">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Autor</mat-label>
+                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="NARepositorio_tesis_autores_aux">
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NARepositorio_tesis_autores_aux')}} / 50</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NARepositorio_tesis_autores_aux','maxlength')">
+                      Máximo 50 caracteres.
+                    </mat-error>
+                  </div>
+                  <div class="col-2 d-flex align-items-center">
+                    <button class="bg-primary" mat-fab
+                      (click)="addItem(['NARepositorio_tesis_autores_aux'],'NARepositorio_tesis_autores',['autor'])"
+                      [disabled]="desabledButton(['NARepositorio_tesis_autores_aux'])">
+                      <mat-icon class="text-white">add</mat-icon>
+                    </button>
+                  </div>
+                  <div class="row mt-4 d-flex justify-content-around">
+                    <div class="col-4 d-flex align-items-center">
+                      {{getLenghtFormArray('NARepositorio_tesis_autores')}} autores agregados.
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                      <mat-checkbox [disabled]="getLenghtFormArray('NARepositorio_tesis_autores') == 0"
+                        (click)="showNARepositorio_tesis_autores = !showNARepositorio_tesis_autores">Mostrar
+                        autores</mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+                <!--FORM ARRAY DE AUTORES AGREGADOS-->
+                <div class="row p-4 arrray_container"
+                  [hidden]="showNARepositorio_tesis_autores == false || getLenghtFormArray('NARepositorio_tesis_autores') == 0">
+                  <mat-card class="array_mat_card">
+                    <mat-card-title class="row d-flex justify-content-center p-2">
+                      Autores
+                    </mat-card-title>
+                    <mat-card-content>
+                      <ng-container formArrayName="NARepositorio_tesis_autores">
+                        <ng-container
+                          *ngFor="let control of this.myForm.controls.NARepositorio_tesis_autores.controls;index as i"
+                          [formGroupName]="i">
+                          <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-5">
+                              <mat-form-field appearance="fill">
+                                <mat-label>Autor</mat-label>
+                                <input autocomplete="true"  type="text" matInput placeholder="" formControlName="autor">
+                              </mat-form-field>
+                              <mat-error *ngIf="isInvalyd(i,'NARepositorio_tesis_autores','autor')">
+                                Máximo 50 caracteres.
+                              </mat-error>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center align-items-center">
+                              <button mat-fab class="text-white bg-danger"
+                                (click)="deleteItem(i,'NARepositorio_tesis_autores')"><mat-icon>delete</mat-icon></button>
+                            </div>
+                          </div>
+
+                        </ng-container>
+                      </ng-container>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+                <!--RESUMEN Y ENLACE-->
+                <div class="row d-flex m-2 p-2 justify-content-center align-items-center">
+                  <!--RESUMEN-->
+                  <div class="col-7">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Resumen</mat-label>
+                      <textarea type="text" rows="5" matInput placeholder=""
+                        formControlName="NARepositorio_tesis_resumen"></textarea>
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NARepositorio_tesis_resumen')}} / 1000</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NARepositorio_tesis_resumen','maxlength')">
+                      Máximo 1000 caracteres.
+                    </mat-error>
+                  </div>
+                  <!--Enlace-->
+                  <div class="col-5">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Enlace</mat-label>
+                      <input autocomplete="true"  type="text" matInput placeholder="" formControlName="NARepositorio_tesis_enlace">
+                    </mat-form-field>
+                    <mat-hint>{{getWroteLength('NARepositorio_tesis_enlace')}} / 50</mat-hint>
+                    <mat-error *ngIf="hasErrorControl('NARepositorio_tesis_enlace','maxlength')">
+                      Máximo 50 caracteres.
+                    </mat-error>
+                  </div>
+                </div>
+              </form>
+              <!--BOTON DE AGREGAR E INDICADOR DE REPOSITORIOS GUARDADOS-->
+              <div class="row d-flex justify-content-end align-items-center">
+                <div class="col-2">
+                  <button mat-fab id="saveButton" class="bg-primary"
+                    (click)="addItem(['NARepositorio_tesis_autores','NARepositorio_tesis_nombre','NARepositorio_tesis_fecha','NARepositorio_tesis_enlace','NARepositorio_tesis_tipo','NARepositorio_tesis_resumen'],'NARepositorio_tesis',['autores','nombre','fecha','enlace','tipo','resumen'])">
+                    <mat-icon>add</mat-icon></button>
+                </div>
+              </div>
+              <div class="row d-flex justify-content-around align-items-center">
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                  {{getLenghtFormArray('NARepositorio_tesis')}} repositorio de tesis agregados.
+                </div>
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                  <mat-checkbox [disabled]="getLenghtFormArray('NARepositorio_tesis') == 0"
+                    (click)="showNARepositorio_tesis = !showNARepositorio_tesis">Mostrar repositorios
+                    agregados.</mat-checkbox>
+                </div>
+
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-tab>
+
+    <mat-tab label="Estudiantes">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="myForm">
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label>Nombre</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="Estudiantes_nombre">
+                  <mat-hint>{{getWroteLength('Estudiantes_nombre')}} / 50</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Estudiantes_nombre','maxlength')">
+                    Máximo 50 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label>Tema De Tésis</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="Estudiantes_tema_tesis">
+                  <mat-hint>{{getWroteLength('Estudiantes_tema_tesis')}} / 100</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Estudiantes_tema_tesis','maxlength')">
+                    Máximo 100 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label>Tutor</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="Estudiantes_tutor">
+                  <mat-hint>{{getWroteLength('Estudiantes_tutor')}} / 50</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Estudiantes_tutor','maxlength')">
+                    Máximo 50 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label>Director De Tésis</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="Estudiantes_director_tesis">
+                  <mat-hint>{{getWroteLength('Estudiantes_director_tesis')}} / 50</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Estudiantes_director_tesis','maxlength')">
+                    Máximo 50 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label>Generación</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="Estudiantes_generacion">
+                  <mat-hint>{{getWroteLength('Estudiantes_generacion')}} / 30</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Estudiantes_generacion','maxlength')">
+                    Máximo 30 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-2 d-flex justify-content-center align-items-center">
+                <button mat-fab class="bg-primary"
+                  (click)="addItem(['Estudiantes_nombre','Estudiantes_tema_tesis','Estudiantes_tutor','Estudiantes_director_tesis','Estudiantes_generacion'],'Estudiantes',['nombre','tema_tesis','tutor','director_tesis','generacion'])">
+                  <mat-icon class="text-white">add</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-around align-items-center">
+              <div class="col-4">
+                {{getLenghtFormArray('Estudiantes')}} estudiantes agregados.
+              </div>
+              <div class="col-4">
+                <mat-checkbox [disabled]="getLenghtFormArray('Estudiantes') == 0"
+                  (click)="showEstudiantes = !showEstudiantes">Mostrar estudiantes</mat-checkbox>
+              </div>
+            </div>
+            <!--FORM ARRAY DE AUTORES AGREGADOS-->
+            <div class="row p-4 arrray_container"
+              [hidden]="showEstudiantes == false || getLenghtFormArray('Estudiantes') == 0">
+              <mat-card class="array_mat_card">
+                <mat-card-title class="row d-flex justify-content-center p-2">
+                  Estudiantes
+                </mat-card-title>
+                <mat-card-content>
+                  <ng-container formArrayName="Estudiantes">
+                    <ng-container *ngFor="let control of this.myForm.controls.Estudiantes.controls;index as i"
+                      [formGroupName]="i">
+                      <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-4">
+                          <mat-form-field>
+                            <mat-label>Nombre</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="nombre">
+                            <mat-hint>{{getWroteLength_Array('Estudiantes',i,'nombre')}} / 50</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'Estudiantes','nombre')">
+                              Máximo 50 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                          <mat-form-field>
+                            <mat-label>Tema De Tésis</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="tema_tesis">
+                            <mat-hint>{{getWroteLength_Array('Estudiantes',i,'tema_tesis')}} / 100</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'Estudiantes','tema_tesis')">
+                              Máximo 100 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                          <mat-form-field>
+                            <mat-label>Tutor</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="tutor">
+                            <mat-hint>{{getWroteLength_Array('Estudiantes',i,'tutor')}} / 50</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'Estudiantes','tutor')">
+                              Máximo 50 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-4">
+                          <mat-form-field>
+                            <mat-label>Director De Tésis</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="director_tesis">
+                            <mat-hint>{{getWroteLength_Array('Estudiantes',i,'director_tesis')}} / 50</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'Estudiantes','director_tesis')">
+                              Máximo 50 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                          <mat-form-field>
+                            <mat-label>Generación</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="generacion">
+                            <mat-hint>{{getWroteLength_Array('Estudiantes',i,'generacion')}} / 30</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'Estudiantes','generacion')">
+                              Máximo 30 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                          <button mat-fab class="bg-danger" (click)="deleteItem(i,'Estudiantes')">
+                            <mat-icon class="text-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Vinculación">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="myForm">
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="col-10">
+                <mat-form-field>
+                  <mat-label>Información</mat-label>
+                  <textarea rows="5" type="text" matInput formControlName="Vinculacion_informacion"></textarea>
+                  <mat-hint>{{getWroteLength('Vinculacion_informacion')}} / 1000</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Vinculacion_informacion','maxlength')">
+                    Máximo 1000 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="row d-flex justify-content-center align-items-center m-2">
+                <div class="col-6 d-flex align-items-center justify-content-center">
+                  <span style="font-size: medium; font-weight: 600;">Convénios</span>
+
+                </div>
+              </div>
+              <div class="col-5">
+                <mat-form-field>
+                  <mat-label>Nombre</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="Vinculacion_convenios_nombre">
+                  <mat-hint>{{getWroteLength('Vinculacion_convenios_nombre')}} / 50</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Vinculacion_convenios_nombre','maxlength')">
+                    Máximo 50 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-5">
+                <mat-form-field>
+                  <mat-label>Enlace</mat-label>
+                  <input autocomplete="true"  type="url" matInput formControlName="Vinculacion_convenios_enlace">
+                  <mat-hint>{{getWroteLength('Vinculacion_convenios_enlace')}} / 30</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('Vinculacion_convenios_enlace','maxlength')">
+                    Máximo 30 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-2 d-flex justify-content-center align-items-center">
+                <button mat-fab class="bg-primary"
+                  (click)="addItem(['Vinculacion_convenios_nombre','Vinculacion_convenios_enlace'],'Vinculacion_convenios',['nombre','enlace'])">
+                  <mat-icon class="text-white">add</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-around align-items-center">
+              <div class="col-4">
+                {{getLenghtFormArray('Vinculacion_convenios')}} convenios agregados.
+              </div>
+              <div class="col-4">
+                <mat-checkbox [disabled]="getLenghtFormArray('Vinculacion_convenios') == 0"
+                  (click)="showVinculacion_convenios = !showVinculacion_convenios">Mostrar convenios.</mat-checkbox>
+              </div>
+            </div>
+            <!--FORM ARRAY DE AUTORES AGREGADOS-->
+            <div class="row p-4 arrray_container"
+              [hidden]="showVinculacion_convenios == false || getLenghtFormArray('Vinculacion_convenios') == 0">
+              <mat-card class="array_mat_card">
+                <mat-card-title class="row d-flex justify-content-center p-2">
+                  Convenios
+                </mat-card-title>
+                <mat-card-content>
+                  <ng-container formArrayName="Vinculacion_convenios">
+                    <ng-container *ngFor="let control of this.myForm.controls.Vinculacion_convenios.controls;index as i"
+                      [formGroupName]="i">
+                      <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-5">
+                          <mat-form-field>
+                            <mat-label>Nombre</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="nombre">
+                            <mat-hint>{{getWroteLength_Array('Vinculacion_convenios',i,'nombre')}} / 50</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'Vinculacion_convenios','nombre')">
+                              Máximo 50 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-5">
+                          <mat-form-field>
+                            <mat-label>Enlace</mat-label>
+                            <input autocomplete="true"  type="url" matInput formControlName="enlace">
+                            <mat-hint>{{getWroteLength_Array('Vinculacion_convenios',i,'enlace')}} / 30</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'Vinculacion_convenios','enlace')">
+                              Máximo 30 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                          <button mat-fab class="bg-danger" (click)="deleteItem(i,'Vinculacion_convenios')">
+                            <mat-icon class="text-white">delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Contactos">
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+        <mat-tab label="Telefonos">
+          <mat-card>
+            <mat-card-content>
+              <form [formGroup]="myForm">
+                <div class="row d-flex justify-content-center align-items-center">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-label>Teléfono</mat-label>
+                      <input autocomplete="true"  type="text" matInput formControlName="CTelefonos_aux">
+                      <mat-hint>{{getWroteLength('CTelefonos_aux')}} / 10</mat-hint>
+                      <mat-error *ngIf="hasErrorControl('CTelefonos_aux','maxlength')">
+                        Máximo 10 caracteres.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 d-flex justify-content-center align-items-center">
+                    <button mat-fab class="bg-primary" [disabled]="desabledButton(['CTelefonos_aux'])"
+                      (click)="addItem(['CTelefonos_aux'],'CTelefonos',['telefono'])">
+                      <mat-icon class="text-white">add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-around align-items-center">
+                  <div class="col-4">
+                    {{getLenghtFormArray('CTelefonos')}} teléfonos agregados.
+                  </div>
+                  <div class="col-4">
+                    <mat-checkbox [disabled]="getLenghtFormArray('CTelefonos') == 0"
+                      (click)="showCTelefonos = !showCTelefonos">Mostrar teléfonos.</mat-checkbox>
+                  </div>
+                </div>
+                <!--FORM ARRAY DE AUTORES AGREGADOS-->
+                <div class="row p-4 arrray_container"
+                  [hidden]="showCTelefonos == false || getLenghtFormArray('CTelefonos') == 0">
+                  <mat-card class="array_mat_card">
+                    <mat-card-title class="row d-flex justify-content-center p-2">
+                      Teléfonos
+                    </mat-card-title>
+                    <mat-card-content>
+                      <ng-container formArrayName="CTelefonos">
+                        <ng-container *ngFor="let control of this.myForm.controls.CTelefonos.controls;index as i"
+                          [formGroupName]="i">
+                          <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-6">
+                              <mat-form-field>
+                                <mat-label>Teléfono</mat-label>
+                                <input autocomplete="true"  type="text" matInput formControlName="telefono">
+                                <mat-hint>{{getWroteLength_Array('CTelefonos',i,'telefono')}} / 10</mat-hint>
+                                <mat-error *ngIf="isInvalyd(i,'CTelefonos','telefono')">
+                                  Máximo 10 caracteres.
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center align-items-center">
+                              <button mat-fab class="bg-danger"
+                                (click)="deleteItem(i,'CTelefonos')">
+                                <mat-icon class="text-white">delete</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="Correos">
+          <mat-card>
+            <mat-card-content>
+              <form [formGroup]="myForm">
+                <div class="row d-flex justify-content-center align-items-center">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-label>Correo</mat-label>
+                      <input autocomplete="true"  type="email" matInput formControlName="CCorreos_aux">
+                      <mat-hint>{{getWroteLength('CCorreos_aux')}} / 40</mat-hint>
+                      <mat-error *ngIf="hasErrorControl('CCorreos_aux','maxlength')">
+                        Máximo 40 caracteres.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 d-flex justify-content-center align-items-center">
+                    <button mat-fab class="bg-primary" [disabled]="desabledButton(['CCorreos_aux'])"
+                      (click)="addItem(['CCorreos_aux'],'CCorreos',['correo'])">
+                      <mat-icon class="text-white">add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-around align-items-center">
+                  <div class="col-4">
+                    {{getLenghtFormArray('CCorreos')}} correos agregados.
+                  </div>
+                  <div class="col-4">
+                    <mat-checkbox [disabled]="getLenghtFormArray('CCorreos') == 0"
+                      (click)="showCCorreos = !showCCorreos">Mostrar correos.</mat-checkbox>
+                  </div>
+                </div>
+                <!--FORM ARRAY DE AUTORES AGREGADOS-->
+                <div class="row p-4 arrray_container"
+                  [hidden]="showCCorreos == false || getLenghtFormArray('CCorreos') == 0">
+                  <mat-card class="array_mat_card">
+                    <mat-card-title class="row d-flex justify-content-center p-2">
+                      Correos
+                    </mat-card-title>
+                    <mat-card-content>
+                      <ng-container formArrayName="CCorreos">
+                        <ng-container *ngFor="let control of this.myForm.controls.CCorreos.controls;index as i"
+                          [formGroupName]="i">
+                          <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-6">
+                              <mat-form-field>
+                                <mat-label>Correo</mat-label>
+                                <input autocomplete="true"  type="text" matInput formControlName="correo">
+                                <mat-hint>{{getWroteLength_Array('CCorreos',i,'correo')}} / 40</mat-hint>
+                                <mat-error *ngIf="isInvalyd(i,'CCorreos','correo')">
+                                  Máximo 10 caracteres.
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center align-items-center">
+                              <button mat-fab class="bg-danger"
+                                (click)="deleteItem(i,'CCorreos')">
+                                <mat-icon class="text-white">delete</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="Redes">
+          <mat-card>
+            <mat-card-content>
+              <form [formGroup]="myForm">
+                <div class="row d-flex justify-content-center align-items-center">
+                  <div class="col-4">
+                    <mat-form-field>
+                      <mat-label>Nombre</mat-label>
+                      <input autocomplete="true"  type="text" matInput formControlName="CRedes_aux">
+                      <mat-hint>{{getWroteLength('CRedes_aux')}} / 40</mat-hint>
+                      <mat-error *ngIf="hasErrorControl('CRedes_aux','maxlength')">
+                        Máximo 40 caracteres.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-4">
+                    <mat-form-field>
+                      <mat-label>Red Social</mat-label>
+                      <mat-select formControlName="CRedes_red_social">
+                        <mat-option *ngFor="let red of redes_sociales" [value]="red.descripcion">
+                          {{red.descripcion}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 d-flex justify-content-center align-items-center">
+                    <button mat-fab class="bg-primary" [disabled]="desabledButton(['CRedes_aux'])"
+                      (click)="addItem(['CRedes_aux','CRedes_red_social'],'CRedes',['nombre','red_social'])">
+                      <mat-icon class="text-white">add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-around align-items-center">
+                  <div class="col-4">
+                    {{getLenghtFormArray('CRedes')}} redes agregadas.
+                  </div>
+                  <div class="col-4">
+                    <mat-checkbox [disabled]="getLenghtFormArray('CRedes') == 0"
+                      (click)="showCRedes = !showCRedes">Mostrar redes.</mat-checkbox>
+                  </div>
+                </div>
+                <!--FORM ARRAY DE AUTORES AGREGADOS-->
+                <div class="row p-4 arrray_container"
+                  [hidden]="showCRedes == false || getLenghtFormArray('CRedes') == 0">
+                  <mat-card class="array_mat_card">
+                    <mat-card-title class="row d-flex justify-content-center p-2">
+                      Redes
+                    </mat-card-title>
+                    <mat-card-content>
+                      <ng-container formArrayName="CRedes">
+                        <ng-container *ngFor="let control of this.myForm.controls.CRedes.controls;index as i"
+                          [formGroupName]="i">
+                          <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-4">
+                              <mat-form-field>
+                                <mat-label>Red</mat-label>
+                                <input autocomplete="true"  type="text" matInput formControlName="nombre">
+                                <mat-hint>{{getWroteLength_Array('CRedes',i,'nombre')}} / 40</mat-hint>
+                                <mat-error *ngIf="isInvalyd(i,'CRedes','nombre')">
+                                  Máximo 40 caracteres.
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                              <mat-form-field>
+                                <mat-label>Red Social</mat-label>
+                                <mat-select formControlName="red_social">
+                                  <mat-option *ngFor="let red of redes_sociales" [value]="red.descripcion">
+                                    {{red.descripcion}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center align-items-center">
+                              <button mat-fab class="bg-danger"
+                                (click)="deleteItem(i,'CRedes')">
+                                <mat-icon class="text-white">delete</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="Direcciones">
+          <mat-card>
+            <mat-card-content>
+              <form [formGroup]="myForm">
+                <div class="row d-flex justify-content-center align-items-center">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-label>Dirección</mat-label>
+                      <input autocomplete="true"  type="text" matInput formControlName="CDirecciones_aux">
+                      <mat-hint>{{getWroteLength('CDirecciones_aux')}} / 60</mat-hint>
+                      <mat-error *ngIf="hasErrorControl('CDirecciones_aux','maxlength')">
+                        Máximo 60 caracteres.
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2 d-flex justify-content-center align-items-center">
+                    <button mat-fab class="bg-primary" [disabled]="desabledButton(['CDirecciones_aux'])"
+                      (click)="addItem(['CDirecciones_aux'],'CDirecciones',['direccion'])">
+                      <mat-icon class="text-white">add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-around align-items-center">
+                  <div class="col-4">
+                    {{getLenghtFormArray('CDirecciones')}} direcciones agregadas.
+                  </div>
+                  <div class="col-4">
+                    <mat-checkbox [disabled]="getLenghtFormArray('CDirecciones') == 0"
+                      (click)="showCDirecciones = !showCDirecciones">Mostrar direcciones.</mat-checkbox>
+                  </div>
+                </div>
+                <!--FORM ARRAY DE AUTORES AGREGADOS-->
+                <div class="row p-4 arrray_container"
+                  [hidden]="showCDirecciones == false || getLenghtFormArray('CDirecciones') == 0">
+                  <mat-card class="array_mat_card">
+                    <mat-card-title class="row d-flex justify-content-center p-2">
+                      Direcciones
+                    </mat-card-title>
+                    <mat-card-content>
+                      <ng-container formArrayName="CDirecciones">
+                        <ng-container *ngFor="let control of this.myForm.controls.CDirecciones.controls;index as i"
+                          [formGroupName]="i">
+                          <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-6">
+                              <mat-form-field>
+                                <mat-label>Dirección</mat-label>
+                                <input autocomplete="true"  type="text" matInput formControlName="direccion">
+                                <mat-hint>{{getWroteLength_Array('CDirecciones',i,'direccion')}} / 60</mat-hint>
+                                <mat-error *ngIf="isInvalyd(i,'CDirecciones','direccion')">
+                                  Máximo 10 caracteres.
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center align-items-center">
+                              <button mat-fab class="bg-danger"
+                                (click)="deleteItem(i,'CDirecciones')">
+                                <mat-icon class="text-white">delete</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-tab>
+
+    <mat-tab label="Normas y Estatútos">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="myForm">
+            <div class="row d-flex justify-content-center align-items-center">
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label>Nombre</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="NormasEstatutos_nombre" maxlength="50">
+                  <mat-hint>{{getWroteLength('NormasEstatutos_nombre')}} / 50</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('NormasEstatutos_nombre','maxlength')">
+                    Máximo 50 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label>Enlace</mat-label>
+                  <input autocomplete="true"  type="text" matInput formControlName="NormasEstatutos_enlace" maxlength="40">
+                  <mat-hint>{{getWroteLength('NormasEstatutos_enlace')}} / 40</mat-hint>
+                  <mat-error *ngIf="hasErrorControl('NormasEstatutos_enlace','maxlength')">
+                    Máximo 40 caracteres.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-2 d-flex justify-content-center align-items-center">
+                <button mat-fab class="bg-primary" [disabled]="desabledButton(['NormasEstatutos_enlace','NormasEstatutos_nombre'])"
+                  (click)="addItem(['NormasEstatutos_nombre','NormasEstatutos_enlace'],'NormasEstatutos',['nombre','enlace'])">
+                  <mat-icon class="text-white">add</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-around align-items-center">
+              <div class="col-4">
+                {{getLenghtFormArray('NormasEstatutos')}} datos agregadas.
+              </div>
+              <div class="col-4">
+                <mat-checkbox [disabled]="getLenghtFormArray('NormasEstatutos') == 0"
+                  (click)="showNormasEstatutos = !showNormasEstatutos">Mostrar datos.</mat-checkbox>
+              </div>
+            </div>
+            <!--FORM ARRAY DE AUTORES AGREGADOS-->
+            <div class="row p-4 arrray_container"
+              [hidden]="showNormasEstatutos == false || getLenghtFormArray('NormasEstatutos') == 0">
+              <mat-card class="array_mat_card">
+                <mat-card-title class="row d-flex justify-content-center p-2">
+                  Normas y Estatutos
+                </mat-card-title>
+                <mat-card-content>
+                  <ng-container formArrayName="NormasEstatutos">
+                    <ng-container *ngFor="let control of this.myForm.controls.NormasEstatutos.controls;index as i"
+                      [formGroupName]="i">
+                      <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-4">
+                          <mat-form-field>
+                            <mat-label>Nombre</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="nombre" maxlength="50">
+                            <mat-hint>{{getWroteLength_Array('NormasEstatutos',i,'nombre')}} / 50</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'NormasEstatutos','nombre')">
+                              Máximo 50 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                          <mat-form-field>
+                            <mat-label>Enlace</mat-label>
+                            <input autocomplete="true"  type="text" matInput formControlName="enlace" maxlength="40">
+                            <mat-hint>{{getWroteLength_Array('NormasEstatutos',i,'enlace')}} / 40</mat-hint>
+                            <mat-error *ngIf="isInvalyd(i,'NormasEstatutos','enlace')">
+                              Máximo 40 caracteres.
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                          <button mat-fab class="bg-danger"
+                            (click)="deleteItem(i,'NormasEstatutos')">
+                            <mat-icon class="text-white">delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+
+  </mat-tab-group>
+
+
+  <button mat-raised-button type="button" (click)="saveMaster()" color="primary">Guardar</button>
+
+
+</div>
+
+
+<!--carga de imagenes
+                <div class="row d-flex mt-4 justify-content-center align-items-center">
+                  <div class="row d-flex justify-content-center" style="width: 100%;">
+                    <form [formGroup]="imageForm">
+                      <div class="row d-flex justify-content-center align-items-center">
+                        <div class="col-6 mt-2 p-2 d-flex justify-content-center align-items-center" >
+                          <img [src]="previsualizacion" alt="" style="max-width: 350px; max-height: 350px; border-radius: 5px;" *ngIf="previsualizacion != '' ">
+                          <img src="../../../../../assets/file.png" alt="" style="max-width: 150px; max-height: 150px; border-radius: 5px;" *ngIf="previsualizacion == '' ">
+                        </div>
+                        <div class="row d-flex m-2 p-2 justify-content-center align-items-center">
+                            <div class="col-4">
+                              <label for="formFile" class="form-label">Cargar imagen</label>
+                              <input autocomplete="true"  class="form-control" type="file" id="formFile" (change)="captureFile($event)">
+                          </div>
+                        </div>
+                        <div class="row d-flex mt-2 justify-content-center" style="width: 100%;">
+                          <div class="col-5">
+                            <mat-form-field>
+                              <mat-label>Nombre</mat-label>
+                              <input autocomplete="true"  type="text" matInput maxlength="50" formControlName="nombre">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-5">
+                            <mat-form-field>
+                              <mat-label>Descripcion</mat-label>
+                              <input autocomplete="true"  type="text" matInput maxlength="50" formControlName="descripcion">
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row mt-2 d-flex justify-content-center" *ngIf="(previsualizacion && (imageForm.controls.nombre.value != '' && imageForm.controls.descripcion.value != '') )">
+                          <div class="col-5 d-flex justify-content-center">
+                            <button mat-raised-button (click)="subirArchivo()"  [disabled]='loading' class="bg-primary text-white" style="width: 100%;">
+                              {{ (loading) ? 'Cargando...':'Subir archivo'}}
+                              <mat-icon class="text-white">save</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+-->
+
+<!--IMAGEN CARGAR
+                              <div class="row arrray_container">
+                                <mat-card class="array_mat_card">
+                                  <mat-card-title class="row d-flex justify-content-center p-2">
+                                    Imagen
+                                  </mat-card-title>
+                                  <mat-card-content>
+                                    <ng-container formArrayName="imagen">
+                                      <ng-container *ngFor="let control of this.myForm.controls.docenteImagen.controls;index as i"
+                                        [formGroupName]="i">
+                                        <div class="row d-flex align-items-center">
+                                          <div class="col-10">
+                                            <div class="row d-flex justify-content-center align-items-center">
+                                              <div class="col-4">
+                                                <mat-form-field appearance="fill">
+                                                  <mat-label>Nombre</mat-label>
+                                                  <input autocomplete="true"  type="text" matInput placeholder="" formControlName="nombre">
+                                                </mat-form-field>
+                                              </div>
+                                              <div class="col-4">
+                                                <mat-form-field appearance="fill">
+                                                  <mat-label>Descripción</mat-label>
+                                                  <input autocomplete="true"  type="text" matInput placeholder="" formControlName="descripcion">
+                                                </mat-form-field>
+                                              </div>
+                                              <div class="col-4">
+                                                <mat-form-field appearance="fill">
+                                                  <mat-label>Ruta de la imagen</mat-label>
+                                                  <input autocomplete="true"  type="text" matInput placeholder="" formControlName="path">
+                                                </mat-form-field>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-2 d-flex jGTramitesustify-content-center align-items-center">
+                                            <button mat-fab class="text-white bg-danger"
+                                              (click)="deleteItem(i,'NADocentes')"><mat-icon>delete</mat-icon></button>
+                                          </div>
+                                        </div>
+
+
+                                      </ng-container>
+                                    </ng-container>
+                                  </mat-card-content>
+                                </mat-card>
+                              </div>
+                              -->
